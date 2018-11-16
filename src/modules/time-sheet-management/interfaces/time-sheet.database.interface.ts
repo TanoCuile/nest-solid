@@ -1,5 +1,5 @@
-import { TimeSlotInterface } from './time-slot.interface';
-import { TimeConfigurationInterface } from './time-configuration.interface';
+import { TimeSlotInterface } from '../../time-sheet/interfaces/time-slot.interface';
+import { TimeConfigurationInterface } from '../../time-sheet/interfaces/time-configuration.interface';
 
 export interface TimeSheetDatabaseInterface {
   getDayTimeSlots(day: number): Promise<TimeSlotInterface[]>;

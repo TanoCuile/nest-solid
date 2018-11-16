@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TimeSlotController } from './time-slot.controller';
-import { FreeTimeService } from '../../services/free-time/free-time.service';
 import {} from 'jasmine';
-import { MockDataBaseModule } from '../../test/mock/mock-data-base.module';
+import { FreeTimeService } from '../../../time-sheet/services/free-time/free-time.service';
+import { MockDataBaseModule } from '../../../../test/mock/mock-data-base.module';
 
 describe('TimeSlot Controller', () => {
   let module: TestingModule;

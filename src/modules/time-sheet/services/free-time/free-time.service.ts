@@ -1,15 +1,11 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { TimeSheetDatabaseInterface } from '../../interfaces/time-sheet.database.interface';
 import { TimeSlotInterface } from '../../interfaces/time-slot.interface';
+import { TimeConfigurationInterface } from '../../interfaces/time-configuration.interface';
+import { FreeTimeServiceInterface } from '../../interfaces/free-time-service.interface';
 
 @Injectable()
-export class FreeTimeService {
-  constructor(@Inject('TimeSheetDatabaseInterface') protected database: TimeSheetDatabaseInterface) {}
-
-  async getFreeTime(day: number, countPrecisedCells: number) {
-    const slots = await this.database.getDayTimeSlots(day);
-    const config = await this.database.getTimeSheetConfiguration();
-
+export class FreeTimeService implements FreeTimeServiceInterface {
+  async getFreeTime(slots: TimeSlotInterface[], config: TimeConfigurationInterface, countPrecisedCells: number) {
     let currentDurationOfEmptyTime = 0;
     let fromTime: number = 0;
     const freeSlots: TimeSlotInterface[] = [];
@@ -23,10 +19,8 @@ export class FreeTimeService {
       if (currentDurationOfEmptyTime >= countPrecisedCells || !isEmpty) {
         if (currentDurationOfEmptyTime >= countPrecisedCells) {
           freeSlots.push({
-            day,
             from: fromTime,
             to: toTime,
-            id: 0,
           } as TimeSlotInterface);
         }
 
@@ -39,18 +33,6 @@ export class FreeTimeService {
       }
     }
 
-    return { freeSlots, config };
-  }
-
-  async getAllTimeSlots(day: number): Promise<TimeSlotInterface[]> {
-    return this.database.getDayTimeSlots(day);
-  }
-
-  async createNewTimeSlot(slot: TimeSlotInterface) {
-    return this.database.createSlot(slot);
-  }
-
-  async updateNewTimeSlot(slot: TimeSlotInterface) {
-    return this.database.updateSlot(slot);
+    return freeSlots;
   }
 }

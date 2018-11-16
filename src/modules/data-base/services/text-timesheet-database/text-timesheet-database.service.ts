@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { TimeSheetDatabaseInterface } from '../../../time-sheet-management/interfaces/time-sheet.database.interface';
-import { TimeSlotInterface } from '../../../time-sheet-management/interfaces/time-slot.interface';
-import { TimeConfigurationInterface } from '../../../time-sheet-management/interfaces/time-configuration.interface';
 import { TimeConfiguration } from '../../classes/time-configuration';
 import path from 'path';
 import fs from 'fs';
+import { TimeSlotInterface } from '../../../time-sheet/interfaces/time-slot.interface';
+import { TimeConfigurationInterface } from '../../../time-sheet/interfaces/time-configuration.interface';
 
 @Injectable()
 export class TextTimesheetDatabaseService implements TimeSheetDatabaseInterface {
@@ -17,8 +17,8 @@ export class TextTimesheetDatabaseService implements TimeSheetDatabaseInterface 
 
   constructor() {
     this.basePath = path.join(process.cwd(), 'resources', 'time-sheet');
-    this.slotsPath = path.join(this.basePath, 'slots.json');
-    this.configPath = path.join(this.basePath, 'configs.json');
+    this.slotsPath = path.join(this.basePath, 'slot.json');
+    this.configPath = path.join(this.basePath, 'config.json');
 
     this.slots = JSON.parse(fs.readFileSync(this.slotsPath).toString() || '[]');
     this.configs = JSON.parse(fs.readFileSync(this.configPath).toString() || '[]');
@@ -80,10 +80,10 @@ export class TextTimesheetDatabaseService implements TimeSheetDatabaseInterface 
   }
 
   private getNewConfigIndex() {
-    return this.configs.reduce((total, item) => (total < item.id ? item.id : total), 0) + 1;
+    return this.configs.reduce((total, item) => (total < (item.id || 1) ? item.id || 1 : total), 0) + 1;
   }
 
   private getNewSlotIndex() {
-    return this.configs.reduce((total, item) => (total < item.id ? item.id : total), 0) + 1;
+    return this.configs.reduce((total, item) => (total < (item.id || 1) ? item.id || 1 : total), 0) + 1;
   }
 }
