@@ -7,6 +7,9 @@ import { InstanceInterface } from '../../interfaces/instance.interface';
 import { DataBaseServiceInterface } from '../../modules/data-base/interfaces/data-base-service.interface';
 import { CreteriaType } from '../../modules/data-base/types/creteria.type';
 import { UserStaffInterface } from '../../modules/user/services/interface/user-staff.interface';
+import { TimeConfigurationServiceInterface } from '../../modules/time-sheet-management/interfaces/time-configuration-service.interface';
+import { TimeSlotServiceInterface } from '../../modules/time-sheet-management/interfaces/time-slot-service.interface';
+import { UserServiceInterface } from '../../modules/user/services/interface/user-service.interface';
 
 export class TextDataBaseService<T extends InstanceInterface> implements DataBaseServiceInterface<T> {
   constructor(protected name: string) {}
@@ -27,38 +30,27 @@ export class TextDataBaseService<T extends InstanceInterface> implements DataBas
   }
 }
 
+export class MockService implements TimeSlotServiceInterface, TimeConfigurationServiceInterface, UserServiceInterface {
+  getAllTimeSlotsPerDayCreteria(day: number): CreteriaType<TimeSlotInterface> {
+    throw new Error('Method not implemented.');
+  }
+  getUserCreteria(userId: number): CreteriaType<UserStaffInterface> {
+    throw new Error('Method not implemented.');
+  }
+  create(config: any) {
+    throw new Error('Method not implemented.');
+  }
+  update(config: any) {
+    throw new Error('Method not implemented.');
+  }
+  delete(config: any) {
+    throw new Error('Method not implemented.');
+  }
+}
+
 @Module({
   imports: [TimeSheetModule],
   providers: [
-    {
-      provide: 'TimeSheetDatabaseInterface',
-      useClass: class implements TimeSheetDatabaseInterface {
-        getDayTimeSlots(): Promise<TimeSlotInterface[]> {
-          throw new Error('Method not implemented.');
-        }
-        getTimeSheetConfiguration(): Promise<TimeConfigurationInterface> {
-          throw new Error('Method not implemented.');
-        }
-        createConfig(config: TimeConfigurationInterface): Promise<TimeConfigurationInterface> {
-          throw new Error('Method not implemented.');
-        }
-        updateConfig(config: TimeConfigurationInterface): Promise<TimeConfigurationInterface> {
-          throw new Error('Method not implemented.');
-        }
-        deleteConfig(config: TimeConfigurationInterface): Promise<any> {
-          throw new Error('Method not implemented.');
-        }
-        createSlot(slot: TimeSlotInterface): Promise<TimeSlotInterface> {
-          throw new Error('Method not implemented.');
-        }
-        updateSlot(slot: TimeSlotInterface): Promise<TimeSlotInterface> {
-          throw new Error('Method not implemented.');
-        }
-        deleteSlot(slot: TimeSlotInterface): Promise<any> {
-          throw new Error('Method not implemented.');
-        }
-      },
-    },
     {
       provide: 'TimeSlotDatabase',
       useFactory: () => new TextDataBaseService<TimeSlotInterface & UserStaffInterface>('slot_test'),
@@ -69,7 +61,16 @@ export class TextDataBaseService<T extends InstanceInterface> implements DataBas
       useFactory: () => new TextDataBaseService<TimeConfigurationInterface & UserStaffInterface>('slot_test'),
       // inject: [] // You can inject anything you want
     },
+    { provide: 'TimeSlotServiceInterface', useClass: MockService },
+    { provide: 'TimeConfigurationServiceInterface', useClass: MockService },
+    { useClass: MockService, provide: 'UserServiceInterface' },
   ],
-  exports: ['TimeSlotDatabase', 'TimeConfigurationDatabase'],
+  exports: [
+    'TimeSlotDatabase',
+    'TimeConfigurationDatabase',
+    'TimeSlotServiceInterface',
+    'TimeConfigurationServiceInterface',
+    'UserServiceInterface',
+  ],
 })
 export class MockDataBaseModule {}

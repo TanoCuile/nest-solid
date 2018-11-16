@@ -4,9 +4,9 @@ import { CreteriaType } from '../../data-base/types/creteria.type';
 export interface TimeSlotServiceInterface {
   getAllTimeSlotsPerDayCreteria(day: number): CreteriaType<TimeSlotInterface>;
 
-  createNewTimeSlot(slot: TimeSlotInterface);
+  create(slot: TimeSlotInterface);
 
-  updateNewTimeSlot(slot: TimeSlotInterface);
+  update(slot: TimeSlotInterface);
 
-  deleteTimeSlot(slot: TimeSlotInterface);
+  delete(slot: TimeSlotInterface);
 }

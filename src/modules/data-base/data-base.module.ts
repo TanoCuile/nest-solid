@@ -8,7 +8,6 @@ import { TimeConfiguration } from './classes/time-configuration';
 @Module({
   imports: [],
   providers: [
-    { provide: 'TimeSheetDatabaseInterface', useClass: TextTimesheetDatabaseService },
     {
       provide: 'TimeSlotDatabase',
       useFactory: () => new TextDataBaseService<TimeSlot>('slot', TimeSlot),
@@ -20,6 +19,6 @@ import { TimeConfiguration } from './classes/time-configuration';
       // inject: [] // You can inject anything you want
     },
   ],
-  exports: ['TimeSheetDatabaseInterface', 'TimeSlotDatabase', 'TimeConfigurationDatabase'],
+  exports: ['TimeSlotDatabase', 'TimeConfigurationDatabase'],
 })
 export class DataBaseModule {}

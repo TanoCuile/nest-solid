@@ -1,8 +1,8 @@
 import { TimeConfigurationInterface } from '../../time-sheet/interfaces/time-configuration.interface';
 export interface TimeConfigurationServiceInterface {
-  createNewTimeSlot(config: TimeConfigurationInterface);
+  create(config: TimeConfigurationInterface);
 
-  updateNewTimeconfig(config: TimeConfigurationInterface);
+  update(config: TimeConfigurationInterface);
 
-  deleteTimeconfig(config: TimeConfigurationInterface);
+  delete(config: TimeConfigurationInterface);
 }
