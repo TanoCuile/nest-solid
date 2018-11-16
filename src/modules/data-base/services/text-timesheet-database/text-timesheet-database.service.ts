@@ -58,8 +58,8 @@ export class TextTimesheetDatabaseService implements TimeSheetDatabaseInterface 
     this.storeSlots();
     return true;
   }
-  async getDayTimeSlots(): Promise<TimeSlotInterface[]> {
-    return [];
+  async getDayTimeSlots(day: number): Promise<TimeSlotInterface[]> {
+    return this.slots.filter(slot => slot.day === day);
   }
 
   async getTimeSheetConfiguration(): Promise<TimeConfigurationInterface> {

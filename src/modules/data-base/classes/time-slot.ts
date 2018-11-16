@@ -3,8 +3,9 @@ import moment from 'moment';
 
 export class TimeSlot implements TimeSlotInterface {
   protected _id: number = 0;
-  protected _from: number = moment('8:00', 'H:mm').unix();
-  protected _to: number = moment('12:00', 'H:mm').unix();
+  protected _day: number = 0;
+  protected _from: number = 8 * 60 + 0;
+  protected _to: number = 12 * 60 + 15;
 
   get id() {
     return this._id;
@@ -28,5 +29,13 @@ export class TimeSlot implements TimeSlotInterface {
 
   set to(time: number) {
     this._to = time;
+  }
+
+  get day() {
+    return this._day;
+  }
+
+  set day(day) {
+    this._day = day;
   }
 }

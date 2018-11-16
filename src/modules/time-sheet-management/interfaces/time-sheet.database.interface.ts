@@ -2,7 +2,7 @@ import { TimeSlotInterface } from './time-slot.interface';
 import { TimeConfigurationInterface } from './time-configuration.interface';
 
 export interface TimeSheetDatabaseInterface {
-  getDayTimeSlots(): Promise<TimeSlotInterface[]>;
+  getDayTimeSlots(day: number): Promise<TimeSlotInterface[]>;
   getTimeSheetConfiguration(): Promise<TimeConfigurationInterface>;
 
   createConfig(config: TimeConfigurationInterface): Promise<TimeConfigurationInterface>;
