@@ -1,14 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TimeSheet.DatabaseService } from './time-sheet.database.service';
+import { TimeSheetDatabaseService } from './time-sheet.database.service';
+import {} from 'jasmine';
 
 describe('TimeSheet.DatabaseService', () => {
-  let service: TimeSheet.DatabaseService;
-  
+  let service: TimeSheetDatabaseService;
+
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TimeSheet.DatabaseService],
+      providers: [TimeSheetDatabaseService],
     }).compile();
-    service = module.get<TimeSheet.DatabaseService>(TimeSheet.DatabaseService);
+    service = module.get<TimeSheetDatabaseService>(TimeSheetDatabaseService);
   });
   it('should be defined', () => {
     expect(service).toBeDefined();
